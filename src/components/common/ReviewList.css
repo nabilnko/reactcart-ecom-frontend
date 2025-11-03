@@ -1,0 +1,140 @@
+.review-list-container {
+  margin-top: 48px;
+  padding: 32px;
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+}
+
+.review-summary h3 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 24px 0;
+}
+
+.summary-stats {
+  padding: 24px;
+  background: #f9fafb;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.average-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.average-rating .rating-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.average-rating .stars {
+  display: flex;
+  gap: 4px;
+}
+
+.average-rating .star {
+  font-size: 24px;
+  color: #fbbf24;
+}
+
+.total-reviews {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.purchase-info {
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.no-reviews {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.review-item {
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reviewer-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 16px;
+}
+
+.verified-badge {
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.review-date {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.review-rating {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.review-rating .star {
+  font-size: 18px;
+}
+
+.review-rating .star.filled {
+  color: #fbbf24;
+}
+
+.review-rating .star.empty {
+  color: #d1d5db;
+}
+
+.review-comment {
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 14px;
+}
+
+.reviews-loading {
+  text-align: center;
+  padding: 48px;
+  color: #6b7280;
+  font-size: 16px;
+}
