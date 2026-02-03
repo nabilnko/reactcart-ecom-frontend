@@ -5,6 +5,7 @@ import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
 import ProductRating from '../../components/common/ProductRating';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 import './Products.css';
 
 const Products = () => {
@@ -35,7 +36,7 @@ const Products = () => {
       for (const product of products) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/reviews/product/${product.id}/stats`
+            `${API_URL}/reviews/product/${product.id}/stats`
           );
           ratings[product.id] = response.data;
         } catch (error) {

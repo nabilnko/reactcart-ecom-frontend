@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
+import { API_URL } from '../../config/api';
 import './OrderReceipt.css';
 
 const OrderReceipt = ({ orderId, onClose }) => {
@@ -14,7 +15,7 @@ const OrderReceipt = ({ orderId, onClose }) => {
 
   const fetchOrderDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/orders/${orderId}`);
+      const response = await fetch(`${API_URL}/orders/${orderId}`);
       if (response.ok) {
         const data = await response.json();
         setOrder(data);

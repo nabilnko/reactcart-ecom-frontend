@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PublicLayout from '../../components/public/PublicLayout';
 import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
+import { API_URL, backendAssetUrl } from '../../config/api';
 import '../../pages/customer/Home.css';
 
 const PublicHome = () => {
@@ -55,7 +56,7 @@ const PublicHome = () => {
   // NEW: Function to fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_URL}/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
@@ -195,7 +196,7 @@ const PublicHome = () => {
 >
   {category.icon ? (
     <img 
-      src={category.icon.startsWith('http') ? category.icon : `http://localhost:8080${category.icon}`}
+      src={backendAssetUrl(category.icon)}
       alt={category.name}
       style={{ 
         width: '64px', 
@@ -252,7 +253,7 @@ const PublicHome = () => {
                   </span>
                 )}
                 <img 
-                  src={product.image?.startsWith('http') ? product.image : `http://localhost:8080${product.image}`}
+                  src={backendAssetUrl(product.image)}
                   alt={product.name}
                   style={{ 
                     width: '100%', 

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
+import { API_URL } from '../../config/api';
 import './AdminLayout.css';
 
 const AdminLayout = ({ children }) => {
@@ -28,7 +29,7 @@ const AdminLayout = ({ children }) => {
     const fetchUnreadCount = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/contact-messages/unread-count', {
+        const response = await fetch(`${API_URL}/contact-messages/unread-count`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

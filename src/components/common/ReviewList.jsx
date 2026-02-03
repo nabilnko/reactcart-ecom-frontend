@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 import './ReviewList.css';
 
 const ReviewList = ({ productId }) => {
@@ -11,7 +12,7 @@ const ReviewList = ({ productId }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8080/api/reviews/product/${productId}`
+        `${API_URL}/reviews/product/${productId}`
       );
       setReviews(response.data);
     } catch (error) {

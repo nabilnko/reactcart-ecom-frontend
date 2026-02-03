@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useOrders } from '../../contexts/OrdersContext';
 import axios from 'axios';
+import { API_URL } from '../../config/api';
 import './PublicLayout.css';
 
 const PublicLayout = ({ children }) => {
@@ -20,7 +21,7 @@ const PublicLayout = ({ children }) => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/categories');
+      const response = await axios.get(`${API_URL}/categories`);
       setCategories(response.data);
     } catch (error) {
       console.error('Error fetching categories:', error);

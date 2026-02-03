@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from './AuthContext';
+import { API_URL } from '../config/api';
 
 const OrdersContext = createContext(null);
-const API_URL = 'http://localhost:8080/api';
 
 export const OrdersProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);

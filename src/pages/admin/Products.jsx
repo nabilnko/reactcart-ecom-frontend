@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useProducts } from '../../contexts/ProductsContext';
+import { API_URL, backendAssetUrl } from '../../config/api';
 import './Products.css';
 
 const Products = () => {
@@ -53,7 +54,7 @@ const Products = () => {
   // NEW: Function to fetch categories
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_URL}/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
@@ -74,7 +75,7 @@ const Products = () => {
   const fetchProductsByCategory = async (categoryId) => {
     setIsLoadingCategory(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/categories/${categoryId}/products`);
+      const response = await fetch(`${API_URL}/categories/${categoryId}/products`);
       if (response.ok) {
         const data = await response.json();
         setCategoryProducts(data);
@@ -110,7 +111,7 @@ const Products = () => {
     if (product.image) {
       const fullImageUrl = product.image.startsWith('http') 
         ? product.image 
-        : `http://localhost:8080${product.image}`;
+        : backendAssetUrl(product.image);
       setImagePreview(fullImageUrl);
       setImageType(product.image.startsWith('http') ? 'url' : 'upload');
       if (product.image.startsWith('http')) {
@@ -122,7 +123,7 @@ const Products = () => {
     if (product.additionalImages && product.additionalImages.length > 0) {
       setExistingAdditionalImages(product.additionalImages);
       const previews = product.additionalImages.map(img => 
-        img.startsWith('http') ? img : `http://localhost:8080${img}`
+        backendAssetUrl(img)
       );
       setAdditionalImagePreviews(previews);
     }
@@ -388,7 +389,7 @@ const Products = () => {
                   <div className="product-cell">
                     <div className="product-image">
                       <img 
-                        src={product.image?.startsWith('http') ? product.image : `http://localhost:8080${product.image}`}
+                        src={backendAssetUrl(product.image)}
                         alt={product.name}
                         style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '8px' }}
                         onError={(e) => {

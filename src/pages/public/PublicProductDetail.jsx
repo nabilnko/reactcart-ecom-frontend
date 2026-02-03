@@ -5,6 +5,7 @@ import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
 import ReviewList from '../../components/common/ReviewList';
 import ReviewForm from '../../components/common/ReviewForm';
+import { backendAssetUrl } from '../../config/api';
 import '../customer/ProductDetail.css';
 
 const PublicProductDetail = () => {
@@ -35,17 +36,13 @@ const PublicProductDetail = () => {
 
   const allImages = [];
   if (product.image) {
-    const mainImageUrl = product.image.startsWith('http') 
-      ? product.image 
-      : `http://localhost:8080${product.image}`;
+    const mainImageUrl = backendAssetUrl(product.image);
     allImages.push(mainImageUrl);
   }
   
   if (product.additionalImages && product.additionalImages.length > 0) {
     product.additionalImages.forEach(img => {
-      const imageUrl = img.startsWith('http') 
-        ? img 
-        : `http://localhost:8080${img}`;
+      const imageUrl = backendAssetUrl(img);
       allImages.push(imageUrl);
     });
   }

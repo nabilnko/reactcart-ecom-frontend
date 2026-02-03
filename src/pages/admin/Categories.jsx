@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { API_URL, backendAssetUrl } from '../../config/api';
 import './Categories.css';
 
 
@@ -29,13 +30,13 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/categories');
+      const response = await fetch(`${API_URL}/categories`);
       const data = await response.json();
       
       const categoriesWithCount = await Promise.all(
         data.map(async (category) => {
           try {
-            const productsResponse = await fetch(`http://localhost:8080/api/categories/${category.id}/products`);
+            const productsResponse = await fetch(`${API_URL}/categories/${category.id}/products`);
             const products = await productsResponse.json();
             return { ...category, productCount: products.length };
           } catch (error) {
@@ -93,8 +94,8 @@ const Categories = () => {
     
     try {
       const url = editingCategory
-        ? `http://localhost:8080/api/categories/${editingCategory.id}`
-        : 'http://localhost:8080/api/categories';
+        ? `${API_URL}/categories/${editingCategory.id}`
+        : `${API_URL}/categories`;
       
       const method = editingCategory ? 'PUT' : 'POST';
       
@@ -120,7 +121,7 @@ const Categories = () => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     
     try {
-      const response = await fetch(`http://localhost:8080/api/categories/${id}`, {
+      const response = await fetch(`${API_URL}/categories/${id}`, {
         method: 'DELETE'
       });
       
@@ -147,7 +148,7 @@ const Categories = () => {
     if (category.icon) {
       const fullIconUrl = category.icon.startsWith('http') 
         ? category.icon 
-        : `http://localhost:8080${category.icon}`;
+        : backendAssetUrl(category.icon);
       setIconPreview(fullIconUrl);
       setIconType(category.icon.startsWith('http') ? 'url' : 'upload');
       if (category.icon.startsWith('http')) {
@@ -198,7 +199,7 @@ const Categories = () => {
                   {/* UPDATED: Display uploaded icon image */}
                   {category.icon ? (
                     <img 
-                      src={category.icon.startsWith('http') ? category.icon : `http://localhost:8080${category.icon}`}
+                      src={backendAssetUrl(category.icon)}
                       alt={category.name}
                       style={{ width: '48px', height: '48px', objectFit: 'contain' }}
                       onError={(e) => { e.target.src = 'https://via.placeholder.com/48?text=' + category.name.charAt(0); }}

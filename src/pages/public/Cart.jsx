@@ -4,6 +4,7 @@ import PublicLayout from '../../components/public/PublicLayout';
 import { useOrders } from '../../contexts/OrdersContext';
 import { useAuth } from '../../contexts/AuthContext';
 import OrderReceipt from '../../components/customer/OrderReceipt';
+import { backendAssetUrl } from '../../config/api';
 import './Cart.css';
 
 const Cart = () => {
@@ -127,7 +128,7 @@ const Cart = () => {
                     <div key={item.id} className="cart-item">
                       <div className="item-image">
                         <img 
-                          src={item.image?.startsWith('http') ? item.image : `http://localhost:8080${item.image}`}
+                          src={backendAssetUrl(item.image)}
                           alt={item.name}
                           style={{ 
                             width: '80px', 

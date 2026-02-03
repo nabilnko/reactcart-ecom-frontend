@@ -3,6 +3,7 @@ import CustomerLayout from '../../components/customer/CustomerLayout';
 import { useOrders } from '../../contexts/OrdersContext';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_URL, backendAssetUrl } from '../../config/api';
 
 const Orders = () => {
   const { cart, removeFromCart, updateCartQuantity, getCartTotal, placeOrder } = useOrders();
@@ -26,7 +27,7 @@ const Orders = () => {
           return;
         }
 
-        const response = await fetch(`http://localhost:8080/api/orders/my-orders`, {
+        const response = await fetch(`${API_URL}/orders/my-orders`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -173,7 +174,7 @@ const Orders = () => {
                       transition: 'box-shadow 0.3s ease'
                     }}>
                       <img
-                        src={item.image?.startsWith('http') ? item.image : `http://localhost:8080${item.image}`}
+                        src={backendAssetUrl(item.image)}
                         alt={item.name}
                         style={{
                           width: '100px',
@@ -409,7 +410,7 @@ const Orders = () => {
                         }}>
                           <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flex: 1, minWidth: '250px' }}>
                             <img
-                              src={item.productImage?.startsWith('http') ? item.productImage : `http://localhost:8080${item.productImage}`}
+                              src={backendAssetUrl(item.productImage)}
                               alt={item.productName}
                               style={{
                                 width: '48px',

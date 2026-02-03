@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { API_URL } from '../config/api';
 
 const ProductsContext = createContext(null);
-const API_URL = 'http://localhost:8080/api';
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
+import { API_URL } from '../../config/api';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -23,7 +24,7 @@ const Dashboard = () => {
     const fetchCustomerCount = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8080/api/users/count', {
+        const response = await fetch(`${API_URL}/users/count`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

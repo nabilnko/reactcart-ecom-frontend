@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext'; // ✅ FIXED: Changed from context to contexts
+import { API_URL } from '../../config/api';
 import './ReviewForm.css';
 
 const ReviewForm = ({ productId, onReviewSubmitted }) => {
@@ -30,7 +31,7 @@ const ReviewForm = ({ productId, onReviewSubmitted }) => {
 
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:8080/api/reviews/product/${productId}`,
+        `${API_URL}/reviews/product/${productId}`,
         { rating, comment },
         {
           headers: {

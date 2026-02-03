@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../config/api';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ const ContactUs = () => {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:8080/api/contact-messages', {
+      const response = await fetch(`${API_URL}/contact-messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

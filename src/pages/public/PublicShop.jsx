@@ -5,6 +5,7 @@ import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
 import ProductRating from '../../components/common/ProductRating';
 import axios from 'axios';
+import { API_URL, backendAssetUrl } from '../../config/api';
 import '../customer/Products.css';
 
 const PublicShop = () => {
@@ -63,7 +64,7 @@ const PublicShop = () => {
       for (const product of products) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/reviews/product/${product.id}/stats`
+            `${API_URL}/reviews/product/${product.id}/stats`
           );
           ratings[product.id] = response.data;
         } catch (error) {
@@ -86,7 +87,7 @@ const PublicShop = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/categories');
+      const response = await axios.get(`${API_URL}/categories`);
       setBackendCategories(['All', ...response.data.map(cat => cat.name)]);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -322,7 +323,7 @@ const PublicShop = () => {
                     
                     <div className="product-image-modern">
                       <img 
-                        src={product.image.startsWith('http') ? product.image : `http://localhost:8080${product.image}`}
+                        src={backendAssetUrl(product.image)}
                         alt={product.name}
                         style={{ 
                           width: '100%', 

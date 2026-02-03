@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useOrders } from '../../contexts/OrdersContext';
+import { backendAssetUrl } from '../../config/api';
 
 const Orders = () => {
   const { orders, updateOrderStatus } = useOrders();
@@ -313,7 +314,7 @@ const filteredOrders = orders.filter(order => {
                               item.product?.image 
                                 ? (item.product.image.startsWith('http') 
                                     ? item.product.image 
-                                    : `http://localhost:8080${item.product.image}`)
+                                  : backendAssetUrl(item.product.image))
                                 : 'https://via.placeholder.com/60x60?text=No+Image'
                             }
                             alt={item.product?.name || 'Product'}

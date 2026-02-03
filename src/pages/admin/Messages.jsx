@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { API_URL } from '../../config/api';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -17,7 +18,7 @@ const Messages = () => {
   const fetchMessages = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8080/api/contact-messages', {
+      const response = await fetch(`${API_URL}/contact-messages`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -36,7 +37,7 @@ const Messages = () => {
   const markAsRead = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/api/contact-messages/${id}/mark-read`, {
+      const response = await fetch(`${API_URL}/contact-messages/${id}/mark-read`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -55,7 +56,7 @@ const Messages = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/api/contact-messages/${id}`, {
+      const response = await fetch(`${API_URL}/contact-messages/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

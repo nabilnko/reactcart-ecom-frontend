@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_URL } from '../../config/api';
 
 const ProfileSettings = () => {
   const { user, updateUser } = useAuth();
@@ -68,7 +69,7 @@ const ProfileSettings = () => {
         updateData.newPassword = formData.newPassword;
       }
 
-      const response = await fetch('http://localhost:8080/api/users/profile', {
+      const response = await fetch(`${API_URL}/users/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomerLayout from '../../../components/customer/CustomerLayout';
 import { useAuth } from '../../../contexts/AuthContext';
+import { API_URL, backendAssetUrl } from '../../../config/api';
 import './WriteReview.css';
 
 const WriteReview = () => {
@@ -29,7 +30,7 @@ const WriteReview = () => {
     // ✅ Fetch product from backend by ID
     const fetchProduct = async () => {
       try {
-        const url = `http://localhost:8080/api/products/${productId}`;
+        const url = `${API_URL}/products/${productId}`;
         console.log('🔍 DEBUG: Fetching from URL:', url);
         
         const response = await fetch(url);
@@ -73,7 +74,7 @@ const WriteReview = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/api/reviews/product/${productId}`, {
+      const response = await fetch(`${API_URL}/reviews/product/${productId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +151,7 @@ const WriteReview = () => {
 
           <div className="product-info-box">
             <img 
-              src={product.image?.startsWith('http') ? product.image : `http://localhost:8080${product.image}`} 
+              src={backendAssetUrl(product.image)} 
               alt={product.name}
               onError={(e) => e.target.src = 'https://via.placeholder.com/80x80?text=No+Image'}
             />
