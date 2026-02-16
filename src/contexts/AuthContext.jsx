@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
         console.log('Login successful:', data);
         
         // Store token and user info
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.accessToken);
         localStorage.setItem('user', JSON.stringify({
           id: data.id,
           name: data.name,
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         console.log('Registration successful:', data);
         
         // Store token and user info
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.accessToken);
         localStorage.setItem('user', JSON.stringify({
           id: data.id,
           name: data.name,
