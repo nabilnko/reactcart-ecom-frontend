@@ -127,8 +127,8 @@ const filteredCustomers = searchQuery
                     borderRadius: '6px',
                     fontSize: '12px',
                     fontWeight: '700',
-                    background: customer.role === 'ADMIN' ? '#fee2e2' : '#dbeafe',
-                    color: customer.role === 'ADMIN' ? '#dc2626' : '#2563eb',
+                    background: (customer.role || '').toString().toUpperCase().includes('ADMIN') ? '#fee2e2' : '#dbeafe',
+                    color: (customer.role || '').toString().toUpperCase().includes('ADMIN') ? '#dc2626' : '#2563eb',
                     width: 'fit-content'
                   }}>
                     {customer.role}

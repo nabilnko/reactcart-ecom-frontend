@@ -15,6 +15,8 @@ import Cart from './pages/public/Cart';
 import ContactUs from './pages/public/ContactUs';
 import ShippingReturns from './pages/public/ShippingReturns';
 import FAQs from './pages/public/FAQs';
+import ForgotPassword from './pages/public/ForgotPassword';
+import ResetPassword from './pages/public/ResetPassword';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/Dashboard';
@@ -53,8 +55,11 @@ const PrivateRoute = ({ children, role }) => {
     return <Navigate to="/login" />;
   }
 
-  if (role && user.role !== role) {
-    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/'} />;
+  const userRole = (user?.role || '').toString().toUpperCase();
+  const requiredRole = (role || '').toString().toUpperCase();
+
+  if (role && !userRole.includes(requiredRole)) {
+    return <Navigate to={userRole.includes('ADMIN') ? '/admin/dashboard' : '/'} />;
   }
 
   return children;
@@ -83,6 +88,8 @@ function App() {
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
               {/* Customer Protected Routes */}
               <Route 

@@ -29,7 +29,8 @@ const Login = () => {
         console.log('Login successful! Redirecting...');
         setTimeout(() => {
           const currentUser = JSON.parse(localStorage.getItem('user'));
-          if (currentUser?.role === 'admin') {
+          const role = (currentUser?.role || '').toString().toUpperCase();
+          if (role.includes('ADMIN')) {
             navigate('/admin/dashboard');
           } else {
             navigate('/');
@@ -93,6 +94,12 @@ const Login = () => {
               required
               disabled={loading}
             />
+          </div>
+
+          <div style={{ textAlign: 'right', marginTop: '-6px', marginBottom: '12px' }}>
+            <Link to="/forgot-password" style={{ fontSize: '13px' }}>
+              Forgot password?
+            </Link>
           </div>
 
           <button type="submit" className="auth-button" disabled={loading}>

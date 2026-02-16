@@ -14,6 +14,10 @@ const PublicLayout = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [categories, setCategories] = useState([]); // NEW
 
+  const role = (user?.role || '').toString().toUpperCase();
+  const isAdmin = role.includes('ADMIN');
+  const isCustomer = role.includes('CUSTOMER');
+
   // Fetch categories from backend
   useEffect(() => {
     fetchCategories();
@@ -127,7 +131,7 @@ const PublicLayout = ({ children }) => {
       <p>{user.email}</p>
       <span className="role-badge">{user.role}</span>
     </div>
-    {user.role === 'customer' && (
+    {isCustomer && (
       <>
         <Link to="/my-orders" className="dropdown-item-public" onClick={() => setShowUserMenu(false)}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -145,7 +149,7 @@ const PublicLayout = ({ children }) => {
         </Link>
       </>
     )}
-    {user.role === 'admin' && (
+    {isAdmin && (
       <>
         <Link to="/admin/dashboard" className="dropdown-item-public" onClick={() => setShowUserMenu(false)}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none">

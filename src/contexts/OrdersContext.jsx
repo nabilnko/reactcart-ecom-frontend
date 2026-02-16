@@ -33,6 +33,9 @@ const fetchOrders = async () => {
       return;
     }
 
+    const role = (user?.role || '').toString().toUpperCase();
+    const isAdmin = role.includes('ADMIN');
+
     const token = localStorage.getItem('token');
     if (!token) {
       console.log('No token found, skipping order fetch');
@@ -42,7 +45,7 @@ const fetchOrders = async () => {
     // ✅ FIX: Admin fetches ALL orders, Customer fetches their own
     let url = `${API_URL}/orders/my-orders`;  // Default for customers
     
-    if (user.role === 'ADMIN' || user.role === 'admin') {
+    if (isAdmin) {
       url = `${API_URL}/orders/admin/all`;
     }
 
