@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -17,12 +18,7 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/contact-messages`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await authFetch(`${API_URL}/contact-messages`);
       if (response.ok) {
         const data = await response.json();
         setMessages(data);
@@ -36,12 +32,8 @@ const Messages = () => {
 
   const markAsRead = async (id) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/contact-messages/${id}/mark-read`, {
+      const response = await authFetch(`${API_URL}/contact-messages/${id}/mark-read`, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       });
       if (response.ok) {
         fetchMessages();
@@ -55,12 +47,8 @@ const Messages = () => {
     if (!window.confirm('Are you sure you want to delete this message?')) return;
     
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/contact-messages/${id}`, {
+      const response = await authFetch(`${API_URL}/contact-messages/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       });
       if (response.ok) {
         fetchMessages();

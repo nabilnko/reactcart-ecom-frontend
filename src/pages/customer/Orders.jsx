@@ -4,6 +4,7 @@ import { useOrders } from '../../contexts/OrdersContext';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_URL, backendAssetUrl } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 
 const Orders = () => {
   const { cart, removeFromCart, updateCartQuantity, getCartTotal, placeOrder } = useOrders();
@@ -27,9 +28,8 @@ const Orders = () => {
           return;
         }
 
-        const response = await fetch(`${API_URL}/orders/my-orders`, {
+        const response = await authFetch(`${API_URL}/orders/my-orders`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });

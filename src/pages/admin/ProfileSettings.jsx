@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 
 const ProfileSettings = () => {
   const { user, updateUser } = useAuth();
@@ -57,7 +58,6 @@ const ProfileSettings = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
       const updateData = {
         name: formData.name,
         email: formData.email,
@@ -69,11 +69,10 @@ const ProfileSettings = () => {
         updateData.newPassword = formData.newPassword;
       }
 
-      const response = await fetch(`${API_URL}/users/profile`, {
+      const response = await authFetch(`${API_URL}/users/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(updateData)
       });

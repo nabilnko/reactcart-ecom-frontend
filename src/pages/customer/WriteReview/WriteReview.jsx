@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CustomerLayout from '../../../components/customer/CustomerLayout';
 import { useAuth } from '../../../contexts/AuthContext';
 import { API_URL, backendAssetUrl } from '../../../config/api';
+import { authFetch } from '../../../config/apiClient';
 import './WriteReview.css';
 
 const WriteReview = () => {
@@ -73,12 +74,10 @@ const WriteReview = () => {
     setError('');
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/reviews/product/${productId}`, {
+      const response = await authFetch(`${API_URL}/reviews/product/${productId}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ rating, comment })
       });

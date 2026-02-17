@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext'; // ✅ FIXED: Changed from context to contexts
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 import './ReviewForm.css';
 
 const ReviewForm = ({ productId, onReviewSubmitted }) => {
@@ -29,17 +29,25 @@ const ReviewForm = ({ productId, onReviewSubmitted }) => {
       setSubmitting(true);
       setMessage({ text: '', type: '' });
 
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `${API_URL}/reviews/product/${productId}`,
-        { rating, comment },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+      const response = await authFetch(`${API_URL}/reviews/product/${productId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ rating, comment })
+      });
+
+      if (!response.ok) {
+        let errorMsg = 'Failed to submit review';
+        try {
+          const data = await response.json();
+          errorMsg = data?.message || data?.error || errorMsg;
+        } catch {
+          const text = await response.text();
+          if (text) errorMsg = text;
         }
-      );
+        throw new Error(errorMsg);
+      }
 
       setMessage({ text: 'Review submitted successfully!', type: 'success' });
       setRating(0);
@@ -49,8 +57,7 @@ const ReviewForm = ({ productId, onReviewSubmitted }) => {
         onReviewSubmitted();
       }
     } catch (error) {
-      const errorMsg = error.response?.data?.message || 'Failed to submit review';
-      setMessage({ text: errorMsg, type: 'error' });
+      setMessage({ text: error.message || 'Failed to submit review', type: 'error' });
     } finally {
       setSubmitting(false);
     }

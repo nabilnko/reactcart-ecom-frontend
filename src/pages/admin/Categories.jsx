@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { API_URL, backendAssetUrl } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 import './Categories.css';
 
 
@@ -100,7 +101,7 @@ const Categories = () => {
       const method = editingCategory ? 'PUT' : 'POST';
       
       // UPDATED: Removed headers, let browser set Content-Type for FormData
-      const response = await fetch(url, {
+      const response = await authFetch(url, {
         method,
         body: formDataToSend
       });
@@ -121,7 +122,7 @@ const Categories = () => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     
     try {
-      const response = await fetch(`${API_URL}/categories/${id}`, {
+      const response = await authFetch(`${API_URL}/categories/${id}`, {
         method: 'DELETE'
       });
       

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { API_URL } from '../config/api';
+import { authFetch } from '../config/apiClient';
 
 const OrdersContext = createContext(null);
 
@@ -51,9 +52,8 @@ const fetchOrders = async () => {
 
     console.log(`📡 Fetching orders from: ${url} (Role: ${user.role})`);
 
-    const response = await fetch(url, {
+    const response = await authFetch(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
@@ -117,8 +117,6 @@ useEffect(() => {
 
   const placeOrder = async (orderDetails) => {
   try {
-    const token = localStorage.getItem('token');
-    
     // Validate cart has items
     if (cart.length === 0) {
       throw new Error('Cart is empty');
@@ -159,17 +157,19 @@ useEffect(() => {
       'Content-Type': 'application/json'
     };
 
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
     console.log('Sending request to:', endpoint);
 
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(orderData)
-    });
+    const response = user
+      ? await authFetch(endpoint, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(orderData)
+        })
+      : await fetch(endpoint, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(orderData)
+        });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -193,12 +193,8 @@ useEffect(() => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/orders/${orderId}/status?status=${newStatus}`, {
+      const response = await authFetch(`${API_URL}/orders/${orderId}/status?status=${newStatus}`, {
         method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       });
 
       if (response.ok) {

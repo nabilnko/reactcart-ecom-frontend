@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useProducts } from '../../contexts/ProductsContext';
 import { useOrders } from '../../contexts/OrdersContext';
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 import './AdminLayout.css';
 
 const AdminLayout = ({ children }) => {
@@ -28,12 +29,7 @@ const AdminLayout = ({ children }) => {
   useEffect(() => {
     const fetchUnreadCount = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/contact-messages/unread-count`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await authFetch(`${API_URL}/contact-messages/unread-count`);
         if (response.ok) {
           const count = await response.json();
           setUnreadCount(count);

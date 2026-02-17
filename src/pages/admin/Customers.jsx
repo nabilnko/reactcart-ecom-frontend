@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -16,12 +17,7 @@ const Customers = () => {
 
   const fetchCustomers = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/users/customers`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const response = await authFetch(`${API_URL}/users/customers`);
       if (response.ok) {
         const data = await response.json();
         setCustomers(data);

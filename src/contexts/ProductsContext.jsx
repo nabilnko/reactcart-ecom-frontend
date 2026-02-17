@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { API_URL } from '../config/api';
+import { authFetch } from '../config/apiClient';
 
 const ProductsContext = createContext(null);
 
@@ -25,7 +26,6 @@ export const ProductsProvider = ({ children }) => {
 
   const addProduct = async (productData, imageFile, imageUrl, additionalFiles, additionalUrls) => {
     try {
-      const token = localStorage.getItem('token');
       const formData = new FormData();
       
       // Append product data
@@ -63,11 +63,8 @@ export const ProductsProvider = ({ children }) => {
         });
       }
 
-      const response = await fetch(`${API_URL}/products`, {
+      const response = await authFetch(`${API_URL}/products`, {
         method: 'POST',
-        headers: { 
-          'Authorization': `Bearer ${token}`
-        },
         body: formData
       });
       
@@ -87,7 +84,6 @@ export const ProductsProvider = ({ children }) => {
 
   const updateProduct = async (id, productData, imageFile, imageUrl, keepExistingImage, additionalFiles, additionalUrls, existingAdditionalImages) => {
     try {
-      const token = localStorage.getItem('token');
       const formData = new FormData();
       
       formData.append('name', productData.name);
@@ -132,11 +128,8 @@ export const ProductsProvider = ({ children }) => {
         });
       }
 
-      const response = await fetch(`${API_URL}/products/${id}`, {
+      const response = await authFetch(`${API_URL}/products/${id}`, {
         method: 'PUT',
-        headers: { 
-          'Authorization': `Bearer ${token}`
-        },
         body: formData
       });
       
@@ -156,12 +149,8 @@ export const ProductsProvider = ({ children }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/products/${id}`, {
+      const response = await authFetch(`${API_URL}/products/${id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       });
       
       if (response.ok) {

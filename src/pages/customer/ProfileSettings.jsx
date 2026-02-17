@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomerLayout from '../../components/customer/CustomerLayout';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_URL } from '../../config/api';
+import { authFetch } from '../../config/apiClient';
 import './ProfileSettings.css';
 
 
@@ -66,7 +67,6 @@ const ProfileSettings = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
       const updateData = {
         name: formData.name,
         phone: formData.phone
@@ -78,11 +78,10 @@ const ProfileSettings = () => {
         updateData.newPassword = formData.newPassword;
       }
 
-      const response = await fetch(`${API_URL}/users/profile`, {
+      const response = await authFetch(`${API_URL}/users/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(updateData)
       });
